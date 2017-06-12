@@ -48,7 +48,8 @@ public class TwitterSearchUtils {
     }
 
     public static ArrayList<SearchResult> parseGitHubSearchResultsJSON(String searchResultsJSON) {
-        //String photo_url;
+        String photo_url;
+        JSONObject entitiesObj;
 
         try {
             JSONObject searchResultsObj = new JSONObject(searchResultsJSON);
@@ -62,9 +63,9 @@ public class TwitterSearchUtils {
                 searchResult.Text = searchResultItem.getString("text");
                 searchResult.User_name = searchResultItem.getJSONObject("user").getString("screen_name");
                 searchResult.Profile_image = searchResultItem.getJSONObject("user").getString("profile_image_url_https");
-                //photo_url = searchResultItem.getJSONObject("entities").getJSONObject("media").getString("media_url_https");
-                //if(searchResultItem.getJSONObject("entities").getJSONObject("media").getString("media_url_https") != null)
-                    //searchResult.Media_photo = searchResultItem.getJSONObject("entities").getJSONObject("media").getString("media_url_https");
+                entitiesObj = searchResultItem.getJSONObject("entities");
+                if(entitiesObj.has("media"))
+                    searchResult.Media_photo = entitiesObj.getJSONArray("media").getJSONObject(0).getString("media_url_https");
                 searchResultsList.add(searchResult);
             }
             return searchResultsList;

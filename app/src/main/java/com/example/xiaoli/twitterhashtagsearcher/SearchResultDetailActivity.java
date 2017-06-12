@@ -18,7 +18,7 @@ public class SearchResultDetailActivity extends AppCompatActivity {
     private TextView mSearchResultUserNameTV;
     private TextView mSearchResultTextTV;
     private TextView mSearchResultTimeTV;
-    //private ImageView mSearchResultPhotoIV;
+    private ImageView mSearchResultPhotoIV;
     private TwitterSearchUtils.SearchResult mSearchResult;
 
     @Override
@@ -29,7 +29,7 @@ public class SearchResultDetailActivity extends AppCompatActivity {
         mSearchResultUserNameTV = (TextView)findViewById(R.id.tv_user_name);
         mSearchResultTextTV = (TextView)findViewById(R.id.tv_twitter_text);
         mSearchResultTimeTV = (TextView)findViewById(R.id.tv_time);
-        //mSearchResultPhotoIV = (ImageView) findViewById(R.id.iv_twitter_photo);
+        mSearchResultPhotoIV = (ImageView) findViewById(R.id.iv_photo);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(TwitterSearchUtils.SearchResult.EXTRA_SEARCH_RESULT)) {
@@ -40,8 +40,8 @@ public class SearchResultDetailActivity extends AppCompatActivity {
 
             new DownloadImageTask((ImageView) findViewById(R.id.iv_user_profile_image))
                     .execute(mSearchResult.Profile_image);
-            //new DownloadImageTask((ImageView) findViewById(R.id.iv_photo))
-                    //.execute(mSearchResult.Media_photo);
+            new DownloadImageTask((ImageView) findViewById(R.id.iv_photo))
+                    .execute(mSearchResult.Media_photo);
         }
     }
 
