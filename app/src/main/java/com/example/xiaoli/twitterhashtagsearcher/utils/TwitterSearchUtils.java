@@ -28,10 +28,14 @@ public class TwitterSearchUtils {
         public String Text;
         public String User_name;
         public String Time;
-        public String Photo;
+        public String Profile_image;
+        public String Media_photo;
     }
 
     public static String buildGitHubSearchURL(String searchQuery) {
+
+        if(!searchQuery.contains("#"))
+            searchQuery = "#" + searchQuery;
 
         return Uri.parse(TWITTER_SEARCH_BASE_URL).buildUpon().
                 appendQueryParameter(TWITTER_SEARCH_QUERY_PARAM, searchQuery).
@@ -44,6 +48,8 @@ public class TwitterSearchUtils {
     }
 
     public static ArrayList<SearchResult> parseGitHubSearchResultsJSON(String searchResultsJSON) {
+        //String photo_url;
+
         try {
             JSONObject searchResultsObj = new JSONObject(searchResultsJSON);
             JSONArray searchResultsItems = searchResultsObj.getJSONArray("statuses");
@@ -55,7 +61,10 @@ public class TwitterSearchUtils {
                 searchResult.Time = searchResultItem.getString("created_at");
                 searchResult.Text = searchResultItem.getString("text");
                 searchResult.User_name = searchResultItem.getJSONObject("user").getString("screen_name");
-                //searchResult.Photo = searchResultItem.getJSONArray("media").getJSONObject(0).getString("media_url");
+                searchResult.Profile_image = searchResultItem.getJSONObject("user").getString("profile_image_url_https");
+                //photo_url = searchResultItem.getJSONObject("entities").getJSONObject("media").getString("media_url_https");
+                //if(searchResultItem.getJSONObject("entities").getJSONObject("media").getString("media_url_https") != null)
+                    //searchResult.Media_photo = searchResultItem.getJSONObject("entities").getJSONObject("media").getString("media_url_https");
                 searchResultsList.add(searchResult);
             }
             return searchResultsList;

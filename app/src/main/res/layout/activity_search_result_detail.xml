@@ -4,29 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.xiaoli.twitterhashtagsearcher.SearchResultDetailActivity">
+    tools:context="com.example.xiaoli.twitterhashtagsearcher.SearchResultDetailActivity"
+    android:weightSum="1">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="161dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="#000"
+        android:textSize="30dp" />
+
+    <ImageView
+        android:id="@+id/iv_user_profile_image"
+        android:layout_width="137dp"
+        android:layout_height="125dp"
+        android:padding="16dp"
+        android:textSize="22dp" />
+
+    <TextView
+        android:id="@+id/tv_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/tv_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textSize="30dp"
-            android:textColor="#000" />
-    </LinearLayout>
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="#000"
+        android:textSize="30dp" />
 
     <TextView
         android:id="@+id/tv_twitter_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textSize="22dp"/>
+
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="229dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.82"
+        android:padding="16dp"
+        android:textSize="22dp" />
+
 
 </LinearLayout>
