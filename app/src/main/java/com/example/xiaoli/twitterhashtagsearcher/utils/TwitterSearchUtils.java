@@ -40,7 +40,7 @@ public class TwitterSearchUtils {
         return Uri.parse(TWITTER_SEARCH_BASE_URL).buildUpon().
                 appendQueryParameter(TWITTER_SEARCH_QUERY_PARAM, searchQuery).
                 //appendQueryParameter(TWITTER_SEARCH_RESULT_TYPE, resultType).
-                //appendQueryParameter(TWITTER_SEARCH_LANGUAGE_PARAM, language).
+                appendQueryParameter(TWITTER_SEARCH_LANGUAGE_PARAM, "en").
                 //appendQueryParameter(TWITTER_SEARCH_COUNT, String.valueOf(count)).
                 //appendQueryParameter(TWITTER_SEARCH_LOCALE, locale).
                         build().
