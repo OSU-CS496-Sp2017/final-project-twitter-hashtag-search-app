@@ -6,42 +6,27 @@
     android:orientation="vertical"
     tools:context="com.example.xiaoli.twitterhashtagsearcher.SearchResultDetailActivity">
 
-    <TextView
-        android:id="@+id/tv_search_result_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:textColor="#000"
-        android:padding="16dp"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            />
-
         <TextView
-            android:id="@+id/tv_search_result_stars"
+            android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:textSize="30dp"
             android:textColor="#000" />
-
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_search_result_description"
+        android:id="@+id/tv_twitter_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textSize="22dp"/>
+
 </LinearLayout>

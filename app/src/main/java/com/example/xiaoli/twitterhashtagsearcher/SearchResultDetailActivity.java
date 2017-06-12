@@ -8,25 +8,23 @@ import android.widget.TextView;
 import com.example.xiaoli.twitterhashtagsearcher.utils.TwitterSearchUtils;
 
 public class SearchResultDetailActivity extends AppCompatActivity {
-    private TextView mSearchResultNameTV;
-    private TextView mSearchResultDescriptionTV;
-    private TextView mSearchResultStarsTV;
+    private TextView mSearchResultUserNameTV;
+    private TextView mSearchResultTextTV;
+    private TwitterSearchUtils.SearchResult mSearchResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result_detail);
 
-        mSearchResultNameTV = (TextView)findViewById(R.id.tv_search_result_name);
-        mSearchResultDescriptionTV = (TextView)findViewById(R.id.tv_search_result_description);
-        mSearchResultStarsTV = (TextView)findViewById(R.id.tv_search_result_stars);
+        mSearchResultUserNameTV = (TextView)findViewById(R.id.tv_user_name);
+        mSearchResultTextTV = (TextView)findViewById(R.id.tv_twitter_text);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(TwitterSearchUtils.SearchResult.EXTRA_SEARCH_RESULT)) {
-            TwitterSearchUtils.SearchResult searchResult = (TwitterSearchUtils.SearchResult)intent.getSerializableExtra(TwitterSearchUtils.SearchResult.EXTRA_SEARCH_RESULT);
-            mSearchResultNameTV.setText(searchResult.Time);
-            mSearchResultDescriptionTV.setText(searchResult.Text);
-            mSearchResultStarsTV.setText(searchResult.Photo);
+            mSearchResult = (TwitterSearchUtils.SearchResult)intent.getSerializableExtra(TwitterSearchUtils.SearchResult.EXTRA_SEARCH_RESULT);
+            mSearchResultUserNameTV.setText(mSearchResult.User_name);
+            mSearchResultTextTV.setText(mSearchResult.Text);
         }
     }
 }

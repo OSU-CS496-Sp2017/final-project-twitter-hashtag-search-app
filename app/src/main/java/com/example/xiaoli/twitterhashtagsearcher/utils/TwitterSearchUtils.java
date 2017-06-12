@@ -1,7 +1,6 @@
 package com.example.xiaoli.twitterhashtagsearcher.utils;
 
 import android.net.Uri;
-import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +26,7 @@ public class TwitterSearchUtils {
     public static class SearchResult implements Serializable {
         public static final String EXTRA_SEARCH_RESULT = "TwitterSearchUtils.SearchResult";
         public String Text;
+        public String User_name;
         public String Time;
         public String Photo;
     }
@@ -52,8 +52,9 @@ public class TwitterSearchUtils {
             for (int i = 0; i < searchResultsItems.length(); i++) {
                 SearchResult searchResult = new SearchResult();
                 JSONObject searchResultItem = searchResultsItems.getJSONObject(i);
-                //searchResult.Time = searchResultItem.getString("created_at");
+                searchResult.Time = searchResultItem.getString("created_at");
                 searchResult.Text = searchResultItem.getString("text");
+                searchResult.User_name = searchResultItem.getJSONObject("user").getString("screen_name");
                 //searchResult.Photo = searchResultItem.getJSONArray("media").getJSONObject(0).getString("media_url");
                 searchResultsList.add(searchResult);
             }
