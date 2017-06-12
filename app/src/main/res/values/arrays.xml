@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="twitter_result_type_entries">
+        <item>@string/pref_result_type_mixed</item>
+        <item>@string/pref_result_type_recent</item>
+        <item>@string/pref_result_type_popular</item>
+    </string-array>
+
+    <string-array name="twitter_result_type_values">
+        <item>@string/pref_result_type_mixed_value</item>
+        <item>@string/pref_result_type_recent_value</item>
+        <item>@string/pref_result_type_popular_value</item>
+    </string-array>
+
+    <string-array name="twitter_language_entries">
+        <item>@string/pref_language_chinese</item>
+        <item>@string/pref_language_english</item>
+        <item>@string/pref_language_french</item>
+        <item>@string/pref_language_german</item>
+        <item>@string/pref_language_japanese</item>
+        <item>@string/pref_language_russian</item>
+        <item>@string/pref_language_spanish</item>
+    </string-array>
+
+    <string-array name="twitter_language_values">
+        <item>@string/pref_language_chinese_value</item>
+        <item>@string/pref_language_english_value</item>
+        <item>@string/pref_language_french_value</item>
+        <item>@string/pref_language_german_value</item>
+        <item>@string/pref_language_japanese_value</item>
+        <item>@string/pref_language_russian_value</item>
+        <item>@string/pref_language_spanish_value</item>
+    </string-array>
+</resources>

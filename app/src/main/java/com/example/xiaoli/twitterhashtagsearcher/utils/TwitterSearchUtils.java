@@ -32,23 +32,22 @@ public class TwitterSearchUtils {
         public String Media_photo;
     }
 
-    public static String buildGitHubSearchURL(String searchQuery) {
+    public static String builTwitterSearchURL(String searchQuery, String resultType, String lang, String count) {
 
         if(!searchQuery.contains("#"))
             searchQuery = "#" + searchQuery;
 
         return Uri.parse(TWITTER_SEARCH_BASE_URL).buildUpon().
                 appendQueryParameter(TWITTER_SEARCH_QUERY_PARAM, searchQuery).
-                //appendQueryParameter(TWITTER_SEARCH_RESULT_TYPE, resultType).
-                appendQueryParameter(TWITTER_SEARCH_LANGUAGE_PARAM, "en").
-                //appendQueryParameter(TWITTER_SEARCH_COUNT, String.valueOf(count)).
+                appendQueryParameter(TWITTER_SEARCH_RESULT_TYPE, resultType).
+                appendQueryParameter(TWITTER_SEARCH_LANGUAGE_PARAM, lang).
+                appendQueryParameter(TWITTER_SEARCH_COUNT, count).
                 //appendQueryParameter(TWITTER_SEARCH_LOCALE, locale).
                         build().
                         toString();
     }
 
     public static ArrayList<SearchResult> parseGitHubSearchResultsJSON(String searchResultsJSON) {
-        String photo_url;
         JSONObject entitiesObj;
 
         try {

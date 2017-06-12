@@ -1,15 +1,24 @@
 package com.example.xiaoli.twitterhashtagsearcher;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,25 +28,23 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import twitter4j.TwitterFactory;
-
 import com.example.xiaoli.twitterhashtagsearcher.utils.TwitterSearchUtils;
 import com.example.xiaoli.twitterhashtagsearcher.utils.NetworkUtils;
 
-public class MainActivity extends AppCompatActivity implements TwitterSearchAdapter.OnSearchResultClickListener, LoaderManager.LoaderCallbacks<String> {
-    private TwitterFactory twitterFactory;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TwitterSearchAdapter.OnSearchResultClickListener, LoaderManager.LoaderCallbacks<String> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String SEARCH_RESULTS_LIST_KEY = "searchResultsList";
-    private static final String SEARCH_URL_KEY = "githubSearchURL";
+    private static final String SEARCH_URL_KEY = "twitterSearchURL";
     private static final int TWITTER_SEARCH_LOADER_ID = 0;
 
-
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
     private RecyclerView mSearchResultsRV;
     private EditText mSearchBoxET;
     private ProgressBar mLoadingIndicatorPB;
     private TextView mLoadingErrorMessageTV;
-    private TwitterSearchAdapter mGitHubSearchAdapter;
+    private TwitterSearchAdapter mTwitterSearchAdapter;
 
     private ArrayList<TwitterSearchUtils.SearchResult> mSearchResultsList;
 
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements TwitterSearchAdap
 
         mSearchResultsList = null;
 
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mSearchBoxET = (EditText)findViewById(R.id.et_search_box);
         mLoadingIndicatorPB = (ProgressBar)findViewById(R.id.pb_loading_indicator);
         mLoadingErrorMessageTV = (TextView)findViewById(R.id.tv_loading_error_message);
@@ -56,8 +64,15 @@ public class MainActivity extends AppCompatActivity implements TwitterSearchAdap
         mSearchResultsRV.setLayoutManager(new LinearLayoutManager(this));
         mSearchResultsRV.setHasFixedSize(true);
 
-        mGitHubSearchAdapter = new TwitterSearchAdapter(this);
-        mSearchResultsRV.setAdapter(mGitHubSearchAdapter);
+        mTwitterSearchAdapter = new TwitterSearchAdapter(this);
+        mSearchResultsRV.setAdapter(mTwitterSearchAdapter);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         getSupportLoaderManager().initLoader(TWITTER_SEARCH_LOADER_ID, null, this);
 
@@ -67,15 +82,42 @@ public class MainActivity extends AppCompatActivity implements TwitterSearchAdap
             public void onClick(View v) {
                 String searchQuery = mSearchBoxET.getText().toString();
                 if (!TextUtils.isEmpty(searchQuery)) {
-                    doGitHubSearch(searchQuery);
+                    doTwitterSearch(searchQuery);
                 }
             }
         });
+
+        NavigationView navigationView = (NavigationView)findViewById(R.id.nv_navigation_drawer);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
-    private void doGitHubSearch(String searchQuery) {
-        String githubSearchUrl = TwitterSearchUtils.buildGitHubSearchURL(searchQuery);
+    private void doTwitterSearch(String searchQuery) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String result_type = preferences.getString(getString(R.string.pref_result_type_key), getString(R.string.pref_result_type_default));
+        String language = preferences.getString(getString(R.string.pref_language_key), getString(R.string.pref_language_default));
+        String  count = preferences.getString(getString(R.string.pref_count_key), "");
+        String githubSearchUrl = TwitterSearchUtils.builTwitterSearchURL(searchQuery, result_type, language, count);
 
         Bundle argsBundle = new Bundle();
         argsBundle.putString(SEARCH_URL_KEY, githubSearchUrl);
@@ -141,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements TwitterSearchAdap
             mLoadingErrorMessageTV.setVisibility(View.INVISIBLE);
             mSearchResultsRV.setVisibility(View.VISIBLE);
             mSearchResultsList = TwitterSearchUtils.parseGitHubSearchResultsJSON(data);
-            mGitHubSearchAdapter.updateSearchResults(mSearchResultsList);
+            mTwitterSearchAdapter.updateSearchResults(mSearchResultsList);
         } else {
             mSearchResultsRV.setVisibility(View.INVISIBLE);
             mLoadingErrorMessageTV.setVisibility(View.VISIBLE);
@@ -153,4 +195,22 @@ public class MainActivity extends AppCompatActivity implements TwitterSearchAdap
         // Nothing to do...
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.nav_search:
+                mDrawerLayout.closeDrawers();
+                return true;
+            case R.id.nav_saved_results:
+                mDrawerLayout.closeDrawers();
+                return true;
+            case R.id.nav_settings:
+                mDrawerLayout.closeDrawers();
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            default:
+                return false;
+        }
+    }
 }

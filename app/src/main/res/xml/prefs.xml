@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:key="@string/pref_result_type_key"
+        android:title="@string/pref_result_type_title"
+        android:dialogTitle="@string/pref_result_type_title"
+        android:summary="%s"
+        android:entries="@array/twitter_result_type_entries"
+        android:entryValues="@array/twitter_result_type_values"
+        android:defaultValue="@string/pref_result_type_default" />
+
+    <ListPreference
+        android:key="@string/pref_language_key"
+        android:title="@string/pref_language_title"
+        android:dialogTitle="@string/pref_language_title"
+        android:summary="%s"
+        android:entries="@array/twitter_language_entries"
+        android:entryValues="@array/twitter_language_values"
+        android:defaultValue="@string/pref_language_default" />
+
+    <EditTextPreference
+        android:key="@string/pref_count_key"
+        android:title="@string/pref_count_title"
+        android:dialogTitle="@string/pref_count_title" />
+
+</PreferenceScreen>
