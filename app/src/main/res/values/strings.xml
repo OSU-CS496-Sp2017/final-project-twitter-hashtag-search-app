@@ -1,3 +1,7 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/tools">
     <string name="app_name">Twitter Hashtag Searcher</string>
+    <string name="loading_error_message">Woops.  We couldn\'t complete your search.  Check your internet connection and try again.</string>
+    <string name="CONSUMER_KEY">VI64zamyjWBEPFzbzZYFN9H4B</string>
+    <string name="CONSUMER_SECRET">tjLkVH6NeFZCtwpjMC6pDuzzN9T4paf9q9tZbdIpGsF9UWxAHo</string>
 </resources>
