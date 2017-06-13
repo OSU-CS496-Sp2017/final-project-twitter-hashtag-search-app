@@ -46,4 +46,5 @@
     <!--Twitter Hashtag Search Tweet Count-->
     <string name="pref_count_key" translatable="false">pref_count</string>
     <string name="pref_count_title">Count</string>
+    <string name="title_activity_saved_hashtag">SavedHashtagActivity</string>
 </resources>

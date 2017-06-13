@@ -30,11 +30,13 @@ dependencies {
     compile 'com.android.support:preference-v14:25.2.0'
     compile 'com.twitter.sdk.android:twitter:3.0.0'
     compile 'com.twitter.sdk.android:twitter-mopub:3.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
 
+
 repositories {
     maven {
-        url  "http://jcenter.bintray.com"
+        url "http://jcenter.bintray.com"
     }
 }

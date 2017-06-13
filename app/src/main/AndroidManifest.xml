@@ -26,13 +26,17 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name="com.example.xiaoli.twitterhashtagsearcher.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/action_settings"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity
+            android:name=".SavedHashtagActivity"
+            android:label="@string/title_activity_saved_hashtag"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,11 @@
 package com.example.xiaoli.twitterhashtagsearcher;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -12,7 +15,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,11 +27,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.xiaoli.twitterhashtagsearcher.data.HashtagSearchContract;
+import com.example.xiaoli.twitterhashtagsearcher.data.HashtagSearchDBHelper;
+import com.example.xiaoli.twitterhashtagsearcher.utils.NetworkUtils;
+import com.example.xiaoli.twitterhashtagsearcher.utils.TwitterSearchUtils;
+
 import java.io.IOException;
 import java.util.ArrayList;
-
-import com.example.xiaoli.twitterhashtagsearcher.utils.TwitterSearchUtils;
-import com.example.xiaoli.twitterhashtagsearcher.utils.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TwitterSearchAdapter.OnSearchResultClickListener, LoaderManager.LoaderCallbacks<String> {
 
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ProgressBar mLoadingIndicatorPB;
     private TextView mLoadingErrorMessageTV;
     private TwitterSearchAdapter mTwitterSearchAdapter;
+    private SQLiteDatabase mDB;
 
     private ArrayList<TwitterSearchUtils.SearchResult> mSearchResultsList;
 
@@ -74,13 +79,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
+        HashtagSearchDBHelper dbHelper = new HashtagSearchDBHelper(this);
+        mDB = dbHelper.getWritableDatabase();
+
         getSupportLoaderManager().initLoader(TWITTER_SEARCH_LOADER_ID, null, this);
 
         Button searchButton = (Button)findViewById(R.id.btn_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ContentValues values = new ContentValues();
                 String searchQuery = mSearchBoxET.getText().toString();
+                values.put(HashtagSearchContract.SearchedHashtags.COLUMN_HASHTAG, searchQuery);
+                mDB.insert(HashtagSearchContract.SearchedHashtags.TABLE_NAME, null, values);
                 if (!TextUtils.isEmpty(searchQuery)) {
                     doTwitterSearch(searchQuery);
                 }
@@ -89,6 +100,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView)findViewById(R.id.nv_navigation_drawer);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mDB.close();
+        super.onDestroy();
     }
 
     @Override
@@ -203,6 +220,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.nav_saved_results:
                 mDrawerLayout.closeDrawers();
+                Intent savedResultsIntent =
+                        new Intent(this, SavedHashtagActivity.class);
+                startActivity(savedResultsIntent);
                 return true;
             case R.id.nav_settings:
                 mDrawerLayout.closeDrawers();
