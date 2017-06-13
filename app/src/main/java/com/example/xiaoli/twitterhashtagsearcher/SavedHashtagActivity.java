@@ -4,16 +4,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.example.xiaoli.twitterhashtagsearcher.data.HashtagSearchContract;
 import com.example.xiaoli.twitterhashtagsearcher.data.HashtagSearchDBHelper;
+import com.example.xiaoli.twitterhashtagsearcher.utils.TwitterSearchUtils;
 
 import java.util.ArrayList;
 
 public class SavedHashtagActivity extends AppCompatActivity {
 
-    private TextView mSearchedHashtagRV;
+    private RecyclerView mSearchedHashtagRV;
     private SQLiteDatabase mDB;
 
     @Override
@@ -21,14 +24,18 @@ public class SavedHashtagActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_hashtag);
 
-        mSearchedHashtagRV = (TextView)findViewById(R.id.tv_searched_hashtag);
-
         HashtagSearchDBHelper dbHelper = new HashtagSearchDBHelper(this);
         mDB = dbHelper.getReadableDatabase();
 
         ArrayList<String> searchedHashtagList = getAllSavedHashtagsResults();
-        String test = searchedHashtagList.toString();
-        mSearchedHashtagRV.setText(searchedHashtagList.toString());
+
+        SavedHashtagAdapter adapter = new SavedHashtagAdapter();
+        adapter.updateSavedSearchResults(searchedHashtagList);
+
+        mSearchedHashtagRV = (RecyclerView) findViewById(R.id.tv_searched_hashtag);
+        mSearchedHashtagRV.setLayoutManager(new LinearLayoutManager(this));
+        mSearchedHashtagRV.setHasFixedSize(true);
+        mSearchedHashtagRV.setAdapter(adapter);
     }
 
     @Override
@@ -46,12 +53,14 @@ public class SavedHashtagActivity extends AppCompatActivity {
                 null,
                 null,
                 null,
-                HashtagSearchContract.SearchedHashtags.COLUMN_TIMESTAMP + " DESC"
+                HashtagSearchContract.SearchedHashtags.COLUMN_TIMESTAMP + " ASC"
         );
 
         ArrayList<String> searchResultsList = new ArrayList<>();
         while (cursor.moveToNext()) {
             searchResultsList.add(cursor.getString(
+                    cursor.getColumnIndex(HashtagSearchContract.SearchedHashtags._ID)
+            ) + ". " +cursor.getString(
                     cursor.getColumnIndex(HashtagSearchContract.SearchedHashtags.COLUMN_HASHTAG)
             ));
         }
