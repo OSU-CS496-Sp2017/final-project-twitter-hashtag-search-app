@@ -17,6 +17,7 @@
         <item>@string/pref_language_english</item>
         <item>@string/pref_language_french</item>
         <item>@string/pref_language_german</item>
+        <item>@string/pref_language_italian</item>
         <item>@string/pref_language_japanese</item>
         <item>@string/pref_language_russian</item>
         <item>@string/pref_language_spanish</item>
@@ -27,6 +28,7 @@
         <item>@string/pref_language_english_value</item>
         <item>@string/pref_language_french_value</item>
         <item>@string/pref_language_german_value</item>
+        <item>@string/pref_language_italian_value</item>
         <item>@string/pref_language_japanese_value</item>
         <item>@string/pref_language_russian_value</item>
         <item>@string/pref_language_spanish_value</item>
