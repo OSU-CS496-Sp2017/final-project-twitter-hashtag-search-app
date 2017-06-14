@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String result_type = preferences.getString(getString(R.string.pref_result_type_key), getString(R.string.pref_result_type_default));
         String language = preferences.getString(getString(R.string.pref_language_key), getString(R.string.pref_language_default));
-        String  count = preferences.getString(getString(R.string.pref_count_key), "");
+        String count = preferences.getString(getString(R.string.pref_count_key), "");
         String githubSearchUrl = TwitterSearchUtils.builTwitterSearchURL(searchQuery, result_type, language, count);
 
         Bundle argsBundle = new Bundle();

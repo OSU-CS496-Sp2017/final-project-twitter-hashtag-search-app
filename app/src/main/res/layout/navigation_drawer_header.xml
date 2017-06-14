@@ -4,18 +4,18 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="128dp"
-    android:background="@color/colorPrimary"
+    android:background="@color/nav_drawer_header"
     android:gravity="bottom">
 
     <ImageView
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="87dp"
+        android:layout_height="104dp"
         android:padding="16dp"
         android:src="@drawable/twitter_light"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="106dp"
         android:padding="8dp"
         android:textSize="28dp"
         android:textColor="#fff"
