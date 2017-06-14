@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import com.example.xiaoli.twitterhashtagsearcher.data.HashtagSearchContract;
 import com.example.xiaoli.twitterhashtagsearcher.data.HashtagSearchDBHelper;
-import com.example.xiaoli.twitterhashtagsearcher.utils.TwitterSearchUtils;
 
 import java.util.ArrayList;
 
@@ -53,14 +51,12 @@ public class SavedHashtagActivity extends AppCompatActivity {
                 null,
                 null,
                 null,
-                HashtagSearchContract.SearchedHashtags.COLUMN_TIMESTAMP + " ASC"
+                HashtagSearchContract.SearchedHashtags.COLUMN_TIMESTAMP + " DESC"
         );
 
         ArrayList<String> searchResultsList = new ArrayList<>();
         while (cursor.moveToNext()) {
             searchResultsList.add(cursor.getString(
-                    cursor.getColumnIndex(HashtagSearchContract.SearchedHashtags._ID)
-            ) + ". " +cursor.getString(
                     cursor.getColumnIndex(HashtagSearchContract.SearchedHashtags.COLUMN_HASHTAG)
             ));
         }
